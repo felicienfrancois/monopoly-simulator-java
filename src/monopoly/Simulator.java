@@ -33,7 +33,7 @@ public class Simulator {
 		while (boardState.getPlayers().size() > 1) {
 			int nextTurnIndex = boardState.getNextTurnIndex();
 			Player player = boardState.getPlayers().get(nextTurnIndex);
-			System.out.println("> " + player.toString() + " turns");
+			System.out.println("> " + player.toString() + " turn");
 			int moveOffset = gameService.rollDice();
 			System.out.println("	Rolling dice ... " + moveOffset);
 			Turn turn = gameService.nextTurn(boardState, moveOffset);
