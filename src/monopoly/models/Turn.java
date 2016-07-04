@@ -3,8 +3,6 @@
  */
 package monopoly.models;
 
-import monopoly.services.Action;
-
 /**
  * @author Felicien
  *
