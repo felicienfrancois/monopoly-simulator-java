@@ -39,7 +39,7 @@ public class Simulator {
 			Turn turn = gameService.nextTurn(boardState, moveOffset);
 			System.out.println("	Moving to ... " + turn.getMoveTo());
 			if (turn.getMoveTo().getOwner() == null) {
-				System.out.println("	the building is purchasable ");
+				System.out.println("	the building is purchasable");
 			} else {
 				System.out.println("	the building is owned by " + turn.getMoveTo().getOwner().toString());
 			}
