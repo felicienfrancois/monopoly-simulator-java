@@ -89,6 +89,7 @@ public class GameService {
 		Player player = boardState.getPlayers().get(nextTurnIndex);
 		int nbSquares = boardState.getSquares().length;
 		int newPosition = (player.getPosition() + moveOffset) % nbSquares;
+		player.setPosition(newPosition);
 		Building moveTo = boardState.getSquares()[newPosition];
 		Turn turn = new Turn(player, moveOffset, moveTo);
 
