@@ -6,7 +6,6 @@ package monopoly.services;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -135,14 +134,14 @@ public class GameServiceTest {
 	public void testNextTurnIndex() {
 		for (int nbPlayers = GameService.MIN_PLAYERS; nbPlayers <= GameService.MAX_PLAYERS; nbPlayers++) {
 			BoardState game = this.createTestGame(nbPlayers, Integer.MAX_VALUE);
-			for (int i = 0; i<=3*nbPlayers; i++) {
+			for (int i = 0; i <= 3 * nbPlayers; i++) {
 				Player expectedPlayer = game.getPlayers().get(game.getNextTurnIndex());
 				Turn turn = this.gameService.nextTurn(game, 1);
 				if (game.getNextTurnIndex() != (1 + i) % nbPlayers) {
 					fail("Wrong nextTurnIndex");
 				}
 				if (!turn.getPlayer().equals(expectedPlayer)) {
-					fail("Expected player "+expectedPlayer.toString()+" to play");
+					fail("Expected player " + expectedPlayer.toString() + " to play");
 				}
 			}
 		}
@@ -172,5 +171,24 @@ public class GameServiceTest {
 			}
 		}
 	}
-	
+
+	/**
+	 * Test method for
+	 * {@link monopoly.services.GameService#nextTurn(monopoly.models.BoardState, int)}
+	 * .
+	 */
+	@Test
+	public void testNextTurnAction() {
+		// TODO
+	}
+
+	/**
+	 * Test method for
+	 * {@link monopoly.services.GameService#nextTurn(monopoly.models.BoardState, int)}
+	 * .
+	 */
+	@Test
+	public void testNextTurnMoney() {
+		// TODO
+	}
 }
