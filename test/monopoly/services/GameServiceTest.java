@@ -116,11 +116,11 @@ public class GameServiceTest {
 		}
 	}
 
-	private BoardState createTestGame(int nbPlayers) {
+	private BoardState createTestGame(int nbPlayers, int startMoney) {
 		Building[] squares = IntStream.range(0, GameService.NB_SQUARES)
 				.mapToObj(id -> new Building(id, GameService.PURCHASE_PRICE, GameService.RENT_PRICE))
 				.toArray(size -> new Building[size]);
-		List<Player> players = IntStream.range(0, nbPlayers).mapToObj(id -> new Player(id, GameService.START_MONEY))
+		List<Player> players = IntStream.range(0, nbPlayers).mapToObj(id -> new Player(id, startMoney))
 				.collect(Collectors.toList());
 		BoardState game = new BoardState(squares, players);
 		return game;
@@ -132,10 +132,45 @@ public class GameServiceTest {
 	 * .
 	 */
 	@Test
-	public void testNextTurn() {
-		BoardState game = this.createTestGame(GameService.MIN_PLAYERS);
-		this.gameService.nextTurn(game, 1);
-		// TODO: test
+	public void testNextTurnIndex() {
+		for (int nbPlayers = GameService.MIN_PLAYERS; nbPlayers <= GameService.MAX_PLAYERS; nbPlayers++) {
+			BoardState game = this.createTestGame(nbPlayers, Integer.MAX_VALUE);
+			for (int i = 0; i<=3*nbPlayers; i++) {
+				Player expectedPlayer = game.getPlayers().get(game.getNextTurnIndex());
+				Turn turn = this.gameService.nextTurn(game, 1);
+				if (game.getNextTurnIndex() != (1 + i) % nbPlayers) {
+					fail("Wrong nextTurnIndex");
+				}
+				if (!turn.getPlayer().equals(expectedPlayer)) {
+					fail("Expected player "+expectedPlayer.toString()+" to play");
+				}
+			}
+		}
 	}
 
+	/**
+	 * Test method for
+	 * {@link monopoly.services.GameService#nextTurn(monopoly.models.BoardState, int)}
+	 * .
+	 */
+	@Test
+	public void testNextTurnMoves() {
+		BoardState game = this.createTestGame(1, Integer.MAX_VALUE);
+		int totalMoves = 0;
+		while (totalMoves < GameService.NB_SQUARES) {
+			int moveOffset = this.gameService.rollDice();
+			totalMoves += moveOffset;
+			Turn turn = this.gameService.nextTurn(game, moveOffset);
+			if (turn.getMoveOffset() != moveOffset) {
+				fail("Wrong moveOffset");
+			}
+			if (turn.getPlayer().getPosition() != totalMoves % GameService.NB_SQUARES) {
+				fail("Wrong player position");
+			}
+			if (turn.getMoveTo().getId() != totalMoves % GameService.NB_SQUARES) {
+				fail("Wrong destination square");
+			}
+		}
+	}
+	
 }
