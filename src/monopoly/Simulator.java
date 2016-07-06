@@ -38,21 +38,19 @@ public class Simulator {
 			System.out.println("	Rolling dice ... " + moveOffset);
 			Turn turn = gameService.nextTurn(boardState, moveOffset);
 			System.out.println("	Moving to ... " + turn.getMoveTo());
-			if (turn.getMoveTo().getOwner() == null) {
-				System.out.println("	the building is purchasable");
-			} else {
-				System.out.println("	the building is owned by " + turn.getMoveTo().getOwner().toString());
-			}
 			switch (turn.getAction()) {
 			case PURCHASE:
+				System.out.println("	the building is purchasable");
 				System.out.println("	" + player.toString() + " bought " + turn.getMoveTo().toString() + " for €"
 						+ turn.getMoveTo().getPurchasePrice());
 				break;
 			case RENT:
+				System.out.println("	the building is owned by " + turn.getMoveTo().getOwner().toString());
 				System.out.println("	" + player.toString() + " => €" + turn.getMoveTo().getRentPrice() + " => "
 						+ turn.getMoveTo().getOwner().toString());
 				break;
 			case LOOSE:
+				System.out.println("	the building is owned by " + turn.getMoveTo().getOwner().toString());
 				System.out.println("	" + player.toString() + " have not enough money to pay the rent");
 				System.out.println(
 						"	" + player.toString() + " => all his money => " + turn.getMoveTo().getOwner().toString());
@@ -60,6 +58,11 @@ public class Simulator {
 				break;
 			case NOTHING:
 			default:
+				if (turn.getMoveTo().getOwner() == null) {
+					System.out.println("	the building is purchasable");
+				} else {
+					System.out.println("	the building is owned by " + turn.getMoveTo().getOwner().toString());
+				}
 				System.out.println("	nothing done");
 				break;
 			}
